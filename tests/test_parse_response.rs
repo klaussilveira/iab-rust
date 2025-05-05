@@ -1,5 +1,4 @@
 use iab::openrtb2::*;
-use serde_json;
 use std::fs;
 use std::path::Path;
 
@@ -10,19 +9,19 @@ fn load_and_parse_response(filename: &str) -> BidResponse {
     println!("Testing response file: {}", path.display());
 
     let content = fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("Failed to read file {}: {}", filename, e));
+        .unwrap_or_else(|e| panic!("Failed to read file {filename}: {e}"));
 
     let result: Result<OpenRtb, _> = serde_json::from_str(&content);
 
     let deserialized_response =
-        result.unwrap_or_else(|e| panic!("Failed to deserialize {}: {:?}", filename, e));
+        result.unwrap_or_else(|e| panic!("Failed to deserialize {filename}: {e:?}"));
 
     match deserialized_response {
         OpenRtb::BidResponse(resp) => {
-            println!("OK: {}", filename);
+            println!("OK: {filename}");
             resp
         }
-        _ => panic!("Deserialized object for {} is not a BidResponse", filename),
+        _ => panic!("Deserialized object for {filename} is not a BidResponse"),
     }
 }
 

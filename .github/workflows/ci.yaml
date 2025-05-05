@@ -45,21 +45,6 @@ jobs:
           toolchain: ${{matrix.rust}}
       - run: cargo build
 
-  build:
-    name: Build ${{matrix.rust}}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        rust: [1.56.0, 1.60.0]
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{matrix.rust}}
-      - run: cargo build
-
   doc:
     name: Documentation
     runs-on: ubuntu-latest

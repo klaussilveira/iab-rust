@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-/// Top-level enum to represent either a BidRequest or a BidResponse.
+/// Top-level enum to represent either a `BidRequest` or a `BidResponse`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum OpenRtb {
@@ -64,7 +64,7 @@ pub struct BidRequest {
     /// Blocked advertiser categories.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bcat: Option<Vec<String>>,
-    /// Taxonomy in use for bcat/acat. Refer to AdCOM 1.0 List: Category Taxonomies.
+    /// Taxonomy in use for bcat/acat. Refer to `AdCOM 1.0` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type to Option<i64>
     pub cattax: Option<i64>,
     /// Block list of advertisers by their domains.
@@ -96,7 +96,7 @@ pub struct Source {
     /// Payment ID chain string. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pchain: Option<String>,
-    /// SupplyChain object. Recommended.
+    /// `SupplyChain` object. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub schain: Option<SupplyChain>,
     /// Placeholder for exchange-specific extensions.
@@ -232,10 +232,10 @@ pub struct Banner {
     /// Blocked banner ad types (1=XHTML Text, 2=XHTML Banner, 3=JavaScript, 4=iframe).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub btype: Option<Vec<i64>>,
-    /// Blocked creative attributes. Refer to AdCOM 1.0 List: Creative Attributes.
+    /// Blocked creative attributes. Refer to `AdCOM 1.0` List: Creative Attributes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub battr: Option<Vec<i64>>,
-    /// Ad position on screen. Refer to AdCOM 1.0 List: Placement Positions.
+    /// Ad position on screen. Refer to `AdCOM 1.0` List: Placement Positions.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pos: Option<i64>,
     /// Content MIME types supported.
@@ -244,10 +244,10 @@ pub struct Banner {
     /// Indicates if banner is in top frame (0 = no, 1 = yes).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub topframe: Option<i64>,
-    /// Directions banner may expand. Refer to AdCOM 1.0 List: Expandable Directions.
+    /// Directions banner may expand. Refer to `AdCOM 1.0` List: Expandable Directions.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub expdir: Option<Vec<i64>>,
-    /// List of supported API frameworks. Refer to AdCOM 1.0 List: API Frameworks.
+    /// List of supported API frameworks. Refer to `AdCOM 1.0` List: API Frameworks.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub api: Option<Vec<i64>>,
     /// Unique identifier for this banner object. Recommended for companion ads.
@@ -272,7 +272,7 @@ pub struct Video {
     /// Maximum video ad duration in seconds. Recommended. Mutually exclusive with rqddurs.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub maxduration: Option<i64>,
-    /// Start delay in seconds for placements. Refer to AdCOM 1.0 List: Start Delay Modes. Recommended.
+    /// Start delay in seconds for placements. Refer to `AdCOM 1.0` List: Start Delay Modes. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub startdelay: Option<i64>,
     /// Maximum number of ads in a dynamic video ad pod. Recommended.
@@ -281,7 +281,7 @@ pub struct Video {
     /// Total time in seconds for a dynamic video ad pod. Required for dynamic portions. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub poddur: Option<i64>,
-    /// Array of supported video protocols. Refer to AdCOM 1.0 List: Creative Subtypes - Audio/Video. Recommended.
+    /// Array of supported video protocols. Refer to `AdCOM 1.0` List: Creative Subtypes - Audio/Video. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub protocols: Option<Vec<i64>>,
     /// Width of the video player in DIPS. Recommended.
@@ -293,7 +293,7 @@ pub struct Video {
     /// Unique identifier for video ad pod impression belongs to.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub podid: Option<String>,
-    /// Sequence (position) of video ad pod within content stream. Refer to AdCOM 1.0 List: Pod Sequence.
+    /// Sequence (position) of video ad pod within content stream. Refer to `AdCOM 1.0` List: Pod Sequence.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub podseq: Option<i64>,
     /// Precise acceptable durations for video creatives in seconds. Mutually exclusive with minduration/maxduration.
@@ -303,10 +303,10 @@ pub struct Video {
     #[deprecated(since = "2.6.2", note = "Use plcmt instead")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub placement: Option<i64>,
-    /// Video placement type for the impression. Refer to AdCOM 1.0 List: Plcmt Subtypes - Video.
+    /// Video placement type for the impression. Refer to `AdCOM 1.0` List: Plcmt Subtypes - Video.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plcmt: Option<i64>,
-    /// Indicates linearity. Refer to AdCOM 1.0 List: Linearity Modes.
+    /// Indicates linearity. Refer to `AdCOM 1.0` List: Linearity Modes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub linearity: Option<i64>,
     /// Indicates if player allows skipping (0 = no, 1 = yes).
@@ -318,17 +318,17 @@ pub struct Video {
     /// Seconds video must play before skipping is enabled; only applicable if skip=1.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub skipafter: Option<i64>,
-    /// DEPRECATED as of OpenRTB 2.6. Use slotinpod.
+    /// DEPRECATED as of `OpenRTB` 2.6. Use slotinpod.
     #[deprecated(since = "2.6.0", note = "Use slotinpod")]
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub sequence: Option<i64>,
-    /// Seller guarantees delivery against indicated slot position in pod. Refer to AdCOM 1.0 List: Slot Position in Pod.
+    /// Seller guarantees delivery against indicated slot position in pod. Refer to `AdCOM 1.0` List: Slot Position in Pod.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub slotinpod: Option<i64>,
     /// Minimum CPM per second for dynamic portion of video ad pod.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mincpmpersec: Option<f64>,
-    /// Blocked creative attributes. Refer to AdCOM 1.0 List: Creative Attributes.
+    /// Blocked creative attributes. Refer to `AdCOM 1.0` List: Creative Attributes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub battr: Option<Vec<i64>>,
     /// Maximum extended ad duration if allowed. If blank/0, not allowed. -1=no limit. >0=seconds of extension.
@@ -343,31 +343,31 @@ pub struct Video {
     /// Indicates if letter-boxing is allowed (0=no, 1=yes).
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub boxingallowed: Option<i64>,
-    /// Playback methods that may be in use. Refer to AdCOM 1.0 List: Playback Methods.
+    /// Playback methods that may be in use. Refer to `AdCOM 1.0` List: Playback Methods.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub playbackmethod: Option<Vec<i64>>,
-    /// Event causing playback end. Refer to AdCOM 1.0 List: Playback Cessation Modes.
+    /// Event causing playback end. Refer to `AdCOM 1.0` List: Playback Cessation Modes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub playbackend: Option<i64>,
-    /// Supported delivery methods. Refer to AdCOM 1.0 List: Delivery Methods.
+    /// Supported delivery methods. Refer to `AdCOM 1.0` List: Delivery Methods.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub delivery: Option<Vec<i64>>,
-    /// Ad position on screen. Refer to AdCOM 1.0 List: Placement Positions.
+    /// Ad position on screen. Refer to `AdCOM 1.0` List: Placement Positions.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub pos: Option<i64>,
     /// Array of Banner objects if companion ads available.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub companionad: Option<Vec<Banner>>,
-    /// List of supported API frameworks. Refer to AdCOM 1.0 List: API Frameworks.
+    /// List of supported API frameworks. Refer to `AdCOM 1.0` List: API Frameworks.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub api: Option<Vec<i64>>,
-    /// Supported VAST companion ad types. Refer to AdCOM 1.0 List: Companion Types. Recommended if companionad included.
+    /// Supported VAST companion ad types. Refer to `AdCOM 1.0` List: Companion Types. Recommended if companionad included.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub companiontype: Option<Vec<i64>>,
-    /// PROVISIONAL. Pod deduplication settings. Refer to AdCOM 1.0 List: Pod Deduplication.
+    /// PROVISIONAL. Pod deduplication settings. Refer to `AdCOM 1.0` List: Pod Deduplication.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub poddedupe: Option<Vec<i64>>,
-    /// Array of DurFloors objects indicating floor prices for various video durations.
+    /// Array of `DurFloors` objects indicating floor prices for various video durations.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub durfloors: Option<Vec<DurFloors>>,
     /// Placeholder for exchange-specific extensions.
@@ -389,10 +389,10 @@ pub struct Audio {
     /// Total time in seconds for a dynamic audio ad pod. Required for dynamic portions. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub poddur: Option<i64>,
-    /// Array of supported audio protocols. Refer to AdCOM 1.0 List: Creative Subtypes - Audio/Video. Recommended.
+    /// Array of supported audio protocols. Refer to `AdCOM 1.0` List: Creative Subtypes - Audio/Video. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub protocols: Option<Vec<i64>>,
-    /// Start delay in seconds for placements. Refer to AdCOM 1.0 List: Start Delay Modes. Recommended.
+    /// Start delay in seconds for placements. Refer to `AdCOM 1.0` List: Start Delay Modes. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub startdelay: Option<i64>,
     /// Precise acceptable durations for audio creatives in seconds. Mutually exclusive with minduration/maxduration.
@@ -401,20 +401,20 @@ pub struct Audio {
     /// Unique identifier for audio ad pod impression belongs to.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub podid: Option<String>,
-    /// Sequence (position) of audio ad pod within content stream. Refer to AdCOM 1.0 List: Pod Sequence.
+    /// Sequence (position) of audio ad pod within content stream. Refer to `AdCOM 1.0` List: Pod Sequence.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub podseq: Option<i64>,
-    /// DEPRECATED as of OpenRTB 2.6. Use slotinpod.
+    /// DEPRECATED as of `OpenRTB` 2.6. Use slotinpod.
     #[deprecated(since = "2.6.0", note = "Use slotinpod")]
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub sequence: Option<i64>,
-    /// Seller guarantees delivery against indicated slot position in pod. Refer to AdCOM 1.0 List: Slot Position in Pod.
+    /// Seller guarantees delivery against indicated slot position in pod. Refer to `AdCOM 1.0` List: Slot Position in Pod.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub slotinpod: Option<i64>,
     /// Minimum CPM per second for dynamic portion of audio ad pod.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mincpmpersec: Option<f64>,
-    /// Blocked creative attributes. Refer to AdCOM 1.0 List: Creative Attributes.
+    /// Blocked creative attributes. Refer to `AdCOM 1.0` List: Creative Attributes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub battr: Option<Vec<i64>>,
     /// Maximum extended ad duration if allowed. If blank/0, not allowed. -1=no limit. >0=seconds of extension.
@@ -426,31 +426,31 @@ pub struct Audio {
     /// Maximum bit rate in Kbps.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub maxbitrate: Option<i64>,
-    /// Supported delivery methods. Refer to AdCOM 1.0 List: Delivery Methods.
+    /// Supported delivery methods. Refer to `AdCOM 1.0` List: Delivery Methods.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub delivery: Option<Vec<i64>>,
     /// Array of Banner objects if companion ads available.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub companionad: Option<Vec<Banner>>,
-    /// List of supported API frameworks. Refer to AdCOM 1.0 List: API Frameworks.
+    /// List of supported API frameworks. Refer to `AdCOM 1.0` List: API Frameworks.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub api: Option<Vec<i64>>,
-    /// Supported companion ad types. Refer to AdCOM 1.0 List: Companion Types. Recommended if companionad included.
+    /// Supported companion ad types. Refer to `AdCOM 1.0` List: Companion Types. Recommended if companionad included.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub companiontype: Option<Vec<i64>>,
     /// Maximum number of ads that can be played in an ad pod.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub maxseq: Option<i64>,
-    /// Type of audio feed. Refer to AdCOM 1.0 List: Feed Types.
+    /// Type of audio feed. Refer to `AdCOM 1.0` List: Feed Types.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub feed: Option<i64>,
     /// Indicates if ad is stitched (0=no, 1=yes).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub stitched: Option<i64>,
-    /// Volume normalization mode. Refer to AdCOM 1.0 List: Volume Normalization Modes.
+    /// Volume normalization mode. Refer to `AdCOM 1.0` List: Volume Normalization Modes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub nvol: Option<i64>,
-    /// Array of DurFloors objects indicating floor prices for various audio durations.
+    /// Array of `DurFloors` objects indicating floor prices for various audio durations.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub durfloors: Option<Vec<DurFloors>>,
     /// Placeholder for exchange-specific extensions.
@@ -466,10 +466,10 @@ pub struct Native {
     /// Version of the Dynamic Native Ads API. Highly recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ver: Option<String>,
-    /// List of supported API frameworks. Refer to AdCOM 1.0 List: API Frameworks.
+    /// List of supported API frameworks. Refer to `AdCOM 1.0` List: API Frameworks.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub api: Option<Vec<i64>>,
-    /// Blocked creative attributes. Refer to AdCOM 1.0 List: Creative Attributes.
+    /// Blocked creative attributes. Refer to `AdCOM 1.0` List: Creative Attributes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub battr: Option<Vec<i64>>,
     /// Placeholder for exchange-specific extensions.
@@ -560,7 +560,7 @@ pub struct Site {
     /// Domain of the site.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub domain: Option<String>,
-    /// Taxonomy in use for categories. Refer to AdCOM List: Category Taxonomies.
+    /// Taxonomy in use for categories. Refer to `AdCOM` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type to Option<i64>
     pub cattax: Option<i64>,
     /// Array of IAB Tech Lab content categories of the site.
@@ -626,7 +626,7 @@ pub struct App {
     /// App store URL for an installed app.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub storeurl: Option<String>,
-    /// Taxonomy in use for categories. Refer to AdCOM List: Category Taxonomies.
+    /// Taxonomy in use for categories. Refer to `AdCOM` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub cattax: Option<i64>,
     /// Array of IAB Tech Lab content categories of the app.
@@ -670,13 +670,13 @@ pub struct App {
 /// Entity who directly supplies inventory to and is paid by the exchange.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct Publisher {
-    /// Exchange-specific seller ID (corresponds to seller_id in sellers.json).
+    /// Exchange-specific seller ID (corresponds to `seller_id` in sellers.json).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
     /// Seller name.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
-    /// Taxonomy in use for categories. Refer to AdCOM List: Category Taxonomies.
+    /// Taxonomy in use for categories. Refer to `AdCOM` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type to Option<i64>
     pub cattax: Option<i64>,
     /// Array of IAB Tech Lab content categories of the publisher.
@@ -732,16 +732,16 @@ pub struct Content {
     /// URL of the content.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<String>,
-    /// Taxonomy in use for 'cat'. Refer to AdCOM List: Category Taxonomies.
+    /// Taxonomy in use for 'cat'. Refer to `AdCOM` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub cattax: Option<i64>,
     /// Array of IAB Tech Lab content categories describing the content.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cat: Option<Vec<String>>,
-    /// Production quality. Refer to AdCOM 1.0 List: Production Qualities.
+    /// Production quality. Refer to `AdCOM 1.0` List: Production Qualities.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub prodq: Option<i64>,
-    /// Type of content. Refer to AdCOM 1.0 List: Content Contexts.
+    /// Type of content. Refer to `AdCOM 1.0` List: Content Contexts.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub context: Option<i64>,
     /// Content rating (e.g., MPAA).
@@ -750,7 +750,7 @@ pub struct Content {
     /// User rating of the content.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub userrating: Option<String>,
-    /// Media rating per IQG guidelines. Refer to AdCOM 1.0 List: Media Ratings.
+    /// Media rating per IQG guidelines. Refer to `AdCOM 1.0` List: Media Ratings.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub qagmediarating: Option<i64>,
     /// Comma separated list of keywords describing the content.
@@ -800,7 +800,7 @@ pub struct Producer {
     /// Content producer or originator name.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
-    /// Taxonomy in use for categories. Refer to AdCOM List: Category Taxonomies.
+    /// Taxonomy in use for categories. Refer to `AdCOM` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type to Option<i64>
     pub cattax: Option<i64>,
     /// Array of IAB Tech Lab content categories describing the producer.
@@ -838,7 +838,7 @@ pub struct Device {
     /// IPv6 address closest to device.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ipv6: Option<String>, // Could use IpAddr type but string is safer for compatibility
-    /// General type of device. Refer to AdCOM 1.0 List: Device Types.
+    /// General type of device. Refer to `AdCOM 1.0` List: Device Types.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub devicetype: Option<i64>,
     /// Device make.
@@ -889,33 +889,33 @@ pub struct Device {
     /// Mobile carrier as concatenated MCC-MNC code.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mccmnc: Option<String>,
-    /// Network connection type. Refer to AdCOM 1.0 List: Connection Types.
+    /// Network connection type. Refer to `AdCOM 1.0` List: Connection Types.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub connectiontype: Option<i64>,
     /// ID sanctioned for advertiser use (e.g., IDFA, AAID).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ifa: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub didsha1: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub didmd5: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dpidsha1: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dpidmd5: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub macsha1: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub macmd5: Option<String>,
@@ -933,7 +933,7 @@ pub struct Geo {
     /// Longitude (-180.0 to +180.0).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lon: Option<f64>,
-    /// Source of location data. Refer to AdCOM 1.0 List: Location Types. Recommended.
+    /// Source of location data. Refer to `AdCOM 1.0` List: Location Types. Recommended.
     #[serde(rename = "type")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub type_: Option<i64>, // Renamed to avoid keyword conflict
@@ -943,7 +943,7 @@ pub struct Geo {
     /// Seconds since geolocation fix was established.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lastfix: Option<i64>,
-    /// Service used for IP address geolocation (type=2). Refer to AdCOM 1.0 List: IP Location Services.
+    /// Service used for IP address geolocation (type=2). Refer to `AdCOM 1.0` List: IP Location Services.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ipservice: Option<i64>,
     /// Country code using ISO-3166-1-alpha-3.
@@ -981,11 +981,11 @@ pub struct User {
     /// Buyer-specific ID for the user.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub buyeruid: Option<String>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub yob: Option<i64>,
-    /// Deprecated as of OpenRTB 2.6.
+    /// Deprecated as of `OpenRTB` 2.6.
     #[deprecated(since = "2.6.0")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gender: Option<String>,
@@ -1088,7 +1088,7 @@ pub struct Channel {
 pub struct SupplyChain {
     /// Flag indicating if chain contains all nodes back to owner (0=no, 1=yes).
     pub complete: i64,
-    /// Array of SupplyChainNode objects in order.
+    /// Array of `SupplyChainNode` objects in order.
     pub nodes: Vec<SupplyChainNode>,
     /// Version of the supply chain specification.
     pub ver: String,
@@ -1104,7 +1104,7 @@ pub struct SupplyChainNode {
     pub asi: String,
     /// Seller/reseller account ID within the advertising system.
     pub sid: String,
-    /// OpenRTB RequestId issued by this seller.
+    /// `OpenRTB` `RequestId` issued by this seller.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rid: Option<String>,
     /// Name of the company paid for inventory under sid. Optional.
@@ -1133,7 +1133,7 @@ pub struct EID {
     /// Technology providing the match method.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub matcher: Option<String>,
-    /// Match method used by the matcher. Refer to AdCOM 1.0 List: ID Match Methods.
+    /// Match method used by the matcher. Refer to `AdCOM 1.0` List: ID Match Methods.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mm: Option<i64>,
     /// Array of extended ID UID objects from the given source.
@@ -1150,7 +1150,7 @@ pub struct UID {
     /// The identifier for the user.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
-    /// Type of user agent the ID is from. Highly recommended. Refer to AdCOM 1.0 List: Agent Types.
+    /// Type of user agent the ID is from. Highly recommended. Refer to `AdCOM 1.0` List: Agent Types.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub atype: Option<i64>,
     /// Placeholder for vendor specific extensions.
@@ -1161,10 +1161,10 @@ pub struct UID {
 /// Structured user agent information based on User-Agent Client Hints.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct UserAgent {
-    /// Array of BrandVersion objects identifying browsers/components. Recommended.
+    /// Array of `BrandVersion` objects identifying browsers/components. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub browsers: Option<Vec<BrandVersion>>,
-    /// BrandVersion object identifying platform/OS. Recommended.
+    /// `BrandVersion` object identifying platform/OS. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub platform: Option<BrandVersion>,
     /// 1 if agent prefers 'mobile', 0 if 'desktop'.
@@ -1179,7 +1179,7 @@ pub struct UserAgent {
     /// Device model.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub model: Option<String>,
-    /// Source of data used to create this object. Refer to AdCOM 1.0 List: User-Agent Source.
+    /// Source of data used to create this object. Refer to `AdCOM 1.0` List: User-Agent Source.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub source: Option<i64>,
     /// Placeholder for vendor specific extensions.
@@ -1205,7 +1205,7 @@ pub struct BrandVersion {
 pub struct Qty {
     /// Quantity of billable events if purchased.
     pub multiplier: f64,
-    /// Source type of quantity measurement. Refer to AdCOM 1.0 List: Multiplier Measurement Source Types. Recommended.
+    /// Source type of quantity measurement. Refer to `AdCOM 1.0` List: Multiplier Measurement Source Types. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub sourcetype: Option<i64>,
     /// Top-level business domain of measurement vendor. Required if sourcetype=1.
@@ -1225,10 +1225,10 @@ pub struct DOOH {
     /// Name of the DOOH placement.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
-    /// Type of out-of-home venue. Default: OpenOOH Venue Taxonomy 1.0.
+    /// Type of out-of-home venue. Default: `OpenOOH` Venue Taxonomy 1.0.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub venuetype: Option<Vec<String>>,
-    /// Venue taxonomy in use. Refer to AdCOM 1.0 List: Venue Taxonomies.
+    /// Venue taxonomy in use. Refer to `AdCOM 1.0` List: Venue Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub venuetypetax: Option<i64>,
     /// Details about the publisher of the placement.
@@ -1251,7 +1251,7 @@ pub struct DOOH {
 /// Details about ad slots being refreshed automatically.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Refresh {
-    /// Array of RefSettings objects describing refresh mechanics. Recommended.
+    /// Array of `RefSettings` objects describing refresh mechanics. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub refsettings: Option<Vec<RefSettings>>,
     /// Number of times this ad slot refreshed since last page load. Recommended.
@@ -1265,7 +1265,7 @@ pub struct Refresh {
 /// Information on how often and what triggers an ad slot refresh.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct RefSettings {
-    /// Type of declared auto refresh. Refer to AdCOM 1.0 List: Auto Refresh Triggers. Recommended.
+    /// Type of declared auto refresh. Refer to `AdCOM 1.0` List: Auto Refresh Triggers. Recommended.
     #[serde(skip_serializing_if = "Option::is_none")] // Changed type, removed default
     pub reftype: Option<i64>,
     /// Minimum refresh interval in seconds. Recommended.
@@ -1298,7 +1298,7 @@ pub struct DurFloors {
 pub struct BidResponse {
     /// ID of the bid request to which this is a response.
     pub id: String,
-    /// Array of SeatBid objects; 1+ required if bidding.
+    /// Array of `SeatBid` objects; 1+ required if bidding.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub seatbid: Option<Vec<SeatBid>>,
     /// Bidder generated response ID.
@@ -1310,7 +1310,7 @@ pub struct BidResponse {
     /// Optional feature to set data in exchange's cookie.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub customdata: Option<String>,
-    /// Reason for not bidding. Refer to OpenRTB 3.0 List: No-Bid Reason Codes.
+    /// Reason for not bidding. Refer to `OpenRTB` 3.0 List: No-Bid Reason Codes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub nbr: Option<i64>,
     /// Placeholder for bidder-specific extensions.
@@ -1376,26 +1376,26 @@ pub struct Bid {
     /// Tactic ID for reporting. Meaning coordinated a priori.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tactic: Option<String>,
-    /// Taxonomy in use for 'cat'. Refer to AdCOM 1.0 List: Category Taxonomies.
+    /// Taxonomy in use for 'cat'. Refer to `AdCOM 1.0` List: Category Taxonomies.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cattax: Option<i64>,
     /// IAB Tech Lab content categories of the creative.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cat: Option<Vec<String>>,
-    /// Set of attributes describing the creative. Refer to AdCOM 1.0 List: Creative Attributes.
+    /// Set of attributes describing the creative. Refer to `AdCOM 1.0` List: Creative Attributes.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub attr: Option<Vec<i64>>,
-    /// List of supported APIs for the markup. Refer to AdCOM 1.0 List: API Frameworks.
+    /// List of supported APIs for the markup. Refer to `AdCOM 1.0` List: API Frameworks.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub apis: Option<Vec<i64>>,
     /// NOTE: Deprecated in favor of apis.
     #[deprecated(note = "Deprecated in favor of apis")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub api: Option<i64>,
-    /// Video response protocol. Refer to AdCOM 1.0 List: Creative Subtypes - Audio/Video.
+    /// Video response protocol. Refer to `AdCOM 1.0` List: Creative Subtypes - Audio/Video.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub protocol: Option<i64>,
-    /// Creative media rating per IQG guidelines. Refer to AdCOM 1.0 List: Media Ratings.
+    /// Creative media rating per IQG guidelines. Refer to `AdCOM 1.0` List: Media Ratings.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub qagmediarating: Option<i64>,
     /// Language of creative using ISO-639-1-alpha-2.
@@ -1428,7 +1428,7 @@ pub struct Bid {
     /// Type of creative markup: 1=Banner, 2=Video, 3=Audio, 4=Native.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mtype: Option<i64>,
-    /// Indicates bid eligibility for specific position within video/audio pod. Refer to AdCOM 1.0 List: Slot Position in Pod.
+    /// Indicates bid eligibility for specific position within video/audio pod. Refer to `AdCOM 1.0` List: Slot Position in Pod.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub slotinpod: Option<i64>,
     /// Placeholder for bidder-specific extensions.

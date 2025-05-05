@@ -1,6 +1,6 @@
 //! # IAB Rust
 //!
-//! This library provides strongly-typed structures for OpenRTB, AdCOM, and
+//! This library provides strongly-typed structures for `OpenRTB`, `AdCOM`, and
 //! other specifications published by the Interactive Advertising Bureau (IAB)
 //! for the Rust programming language.
 //!

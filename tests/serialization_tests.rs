@@ -1,5 +1,4 @@
 use iab::openrtb2::*;
-use serde_json;
 use std::fs;
 
 #[test]
@@ -43,12 +42,12 @@ fn test_serializ() {
     // Serialize the struct
     let generated_json_str =
         serde_json::to_string_pretty(&request).expect("Failed to serialize BidRequest");
-    println!("Serialized JSON:\n{}\n", generated_json_str);
+    println!("Serialized JSON:\n{generated_json_str}\n");
 
     // Read the test JSON
     let expected_json_str = fs::read_to_string("tests/request/simple-banner.json")
         .expect("Failed to read simple-banner.json");
-    println!("Test JSON:\n{}\n", expected_json_str);
+    println!("Test JSON:\n{expected_json_str}\n");
 
     // Parse both JSON files and compare them
     let generated_value: serde_json::Value =
