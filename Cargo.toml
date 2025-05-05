@@ -1,0 +1,13 @@
+[package]
+name = "iab"
+description = "This library provides strongly-typed structures for OpenRTB, AdCOM, and other specifications published by the Interactive Advertising Bureau (IAB) for the Rust programming language."
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+keywords = ["iab", "openrtb", "adcom", "rtb"]
+categories = ["api-bindings"]
+repository = "https://github.com/klaussilveira/iab-rust"
+
+[dependencies]
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"

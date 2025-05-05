@@ -1,0 +1,123 @@
+{
+  "id": "some-request-id",
+  "site": {
+    "page": "test.somepage.com"
+  },
+  "imp": [
+    {
+      "id": "imp-id-1",
+      "banner": {
+        "w": 100,
+        "format": [
+          {
+            "w": 300,
+            "h": 600
+          }
+        ]
+      },
+      "ext": {
+        "prebid": {
+          "bidder": {
+            "appnexus": {
+              "placementId": 1
+            }
+          },
+          "imp": {
+            "appnexus": {
+              "banner": {
+                "h": 200,
+                "format": [
+                  {
+                    "w": 3000,
+                    "h": 6000
+                  }
+                ],
+                "btype": [
+                  1,
+                  2
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "imp-id-2",
+      "video": {
+        "mimes": [
+          "video/mp3"
+        ],
+        "w": 200
+      },
+      "ext": {
+        "prebid": {
+          "bidder": {
+            "appnexus": {
+              "placementId": 1
+            }
+          },
+          "imp": {
+            "appnexus": {
+              "video": {
+                "mimes": [
+                  "video/mp4"
+                ],
+                "h": 400
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "imp-id-3",
+      "audio": {
+        "mimes": [
+          "audio/mp4"
+        ],
+        "minduration": 1,
+        "maxduration": 10,
+        "durfloors": [
+          {
+            "mindur": 1,
+            "maxdur": 10,
+            "bidfloor": 10.0
+          }
+        ]
+      },
+      "native": {
+        "request": "{\"ver\":\"1.1\",\"layout\":1,\"adunit\":2,\"plcmttype\":4,\"assets\":[{\"id\":1,\"required\":1,\"title\":{\"len\":75}}]}",
+        "ver": "1.1"
+      },
+      "ext": {
+        "prebid": {
+          "bidder": {
+            "appnexus": {
+              "placementId": 1
+            }
+          },
+          "imp": {
+            "appnexus": {
+              "audio": {
+                "maxduration": 20,
+                "durfloors": [
+                  {
+                    "mindur": 2,
+                    "maxdur": 30,
+                    "bidfloor": 20.0
+                  }
+                ],
+                "poddur": 40
+              },
+              "native": {
+                "ver": "2.2",
+                "ctype": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
