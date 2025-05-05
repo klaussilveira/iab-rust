@@ -4,6 +4,7 @@ use serde_json::Value;
 /// Top-level enum to represent either a `BidRequest` or a `BidResponse`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
 pub enum OpenRtb {
     BidRequest(BidRequest),
     BidResponse(BidResponse),
