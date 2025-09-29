@@ -1,4 +1,5 @@
-use iab::openrtb2::*;
+use iab::openrtb26::*;
+use iab::adcom::enums::*;
 use std::fs;
 use std::path::Path;
 
@@ -11,18 +12,9 @@ fn load_and_parse_request(filename: &str) -> BidRequest {
     let content = fs::read_to_string(&path)
         .unwrap_or_else(|e| panic!("Failed to read file {filename}: {e}"));
 
-    let result: Result<OpenRtb, _> = serde_json::from_str(&content);
+    let result: Result<BidRequest, _> = serde_json::from_str(&content);
 
-    let deserialized_request =
-        result.unwrap_or_else(|e| panic!("Failed to deserialize {filename}: {e:?}"));
-
-    match deserialized_request {
-        OpenRtb::BidRequest(req) => {
-            println!("OK: {filename}");
-            req
-        }
-        _ => panic!("Deserialized object for {filename} is not a BidRequest"),
-    }
+    result.unwrap_or_else(|e| panic!("Failed to deserialize {filename}: {e:?}"))
 }
 
 #[test]
@@ -65,8 +57,8 @@ fn test_expandable_creative_request() {
     let banner = imp.banner.as_ref().unwrap();
     assert_eq!(banner.w, Some(300));
     assert_eq!(banner.h, Some(250));
-    assert_eq!(banner.battr, Some(vec![13]));
-    assert_eq!(banner.expdir, Some(vec![2, 4]));
+    assert_eq!(banner.battr, Some(vec![CreativeAttribute::UserInteractive]));
+    assert_eq!(banner.expdir, Some(vec![ExpandableDirection::Right, ExpandableDirection::Down]));
     assert!(req.site.is_some());
     let site = req.site.as_ref().unwrap();
     assert_eq!(site.id.as_deref(), Some("102855"));
@@ -120,10 +112,10 @@ fn test_mobile_request() {
     let banner = imp.banner.as_ref().unwrap();
     assert_eq!(banner.w, Some(728));
     assert_eq!(banner.h, Some(90));
-    assert_eq!(banner.pos, Some(1));
+    assert_eq!(banner.pos, Some(PlacementPosition::AboveTheFold));
     assert_eq!(banner.btype, Some(vec![4]));
-    assert_eq!(banner.battr, Some(vec![14]));
-    assert_eq!(banner.api, Some(vec![3]));
+    assert_eq!(banner.battr, Some(vec![CreativeAttribute::AlertStyle]));
+    assert_eq!(banner.api, Some(vec![ApiFramework::MRAID1_0]));
     assert!(req.app.is_some());
     let app = req.app.as_ref().unwrap();
     assert_eq!(
@@ -147,7 +139,7 @@ fn test_mobile_request() {
     assert_eq!(device.make.as_deref(), Some("Apple"));
     assert_eq!(device.model.as_deref(), Some("iPhone"));
     assert_eq!(device.osv.as_deref(), Some("6.1"));
-    assert_eq!(device.devicetype, Some(1));
+    assert_eq!(device.devicetype, Some(DeviceType::MobileTablet));
     assert!(req.user.is_some());
     let user = req.user.as_ref().unwrap();
     assert_eq!(
@@ -264,11 +256,11 @@ fn test_video_request() {
     let video = imp.video.as_ref().unwrap();
     assert_eq!(video.w, Some(640));
     assert_eq!(video.h, Some(480));
-    assert_eq!(video.pos, Some(1));
+    assert_eq!(video.pos, Some(PlacementPosition::AboveTheFold));
     assert_eq!(video.startdelay, Some(0));
     assert_eq!(video.minduration, Some(5));
     assert_eq!(video.maxduration, Some(30));
-    assert_eq!(video.protocols, Some(vec![2, 3]));
+    assert_eq!(video.protocols, Some(vec![CreativeSubtypeAudioVideo::Vast2_0, CreativeSubtypeAudioVideo::Vast3_0]));
     assert_eq!(
         video.mimes,
         vec![
@@ -277,9 +269,9 @@ fn test_video_request() {
             "application/javascript".to_string()
         ]
     );
-    assert_eq!(video.linearity, Some(1));
-    assert_eq!(video.playbackmethod, Some(vec![1, 3]));
-    assert_eq!(video.delivery, Some(vec![2]));
+    assert_eq!(video.linearity, Some(LinearityMode::Linear));
+    assert_eq!(video.playbackmethod, Some(vec![PlaybackMethod::PageLoadSoundOn, PlaybackMethod::ClickSoundOn]));
+    assert_eq!(video.delivery, Some(vec![DeliveryMethod::Progressive]));
     assert!(video.companionad.is_some());
     let companion_ads = video.companionad.as_ref().unwrap();
     assert_eq!(companion_ads.len(), 2);
@@ -289,7 +281,72 @@ fn test_video_request() {
     assert_eq!(companion_ads[1].id.as_deref(), Some("1234567893-2"));
     assert_eq!(companion_ads[1].w, Some(728));
     assert_eq!(companion_ads[1].h, Some(90));
-    assert_eq!(video.companiontype, Some(vec![1, 2]));
+    assert_eq!(video.companiontype, Some(vec![CompanionType::ConcurrentDisplay, CompanionType::EndCard]));
+    assert!(req.site.is_some());
+    let site = req.site.as_ref().unwrap();
+    assert_eq!(site.id.as_deref(), Some("1345135123"));
+    assert_eq!(site.domain.as_deref(), Some("siteabcd.com"));
+    assert_eq!(site.privacypolicy, Some(1));
+    assert!(site.publisher.is_some());
+    assert!(site.content.is_some());
+    let content = site.content.as_ref().unwrap();
+    assert_eq!(content.id.as_deref(), Some("1234567"));
+    assert_eq!(content.episode, Some(23));
+    assert_eq!(content.title.as_deref(), Some("Car Show"));
+    assert!(req.device.is_some());
+    assert!(req.user.is_some());
+    let user = req.user.as_ref().unwrap();
+    assert_eq!(user.id.as_deref(), Some("456789876567897654678987656789"));
+    assert_eq!(
+        user.buyeruid.as_deref(),
+        Some("545678765467876567898765678987654")
+    );
+}
+
+#[test]
+#[cfg(feature="coercion")]
+fn test_coercion_request() {
+    let req = load_and_parse_request("needs-coercion.json");
+
+    assert_eq!(req.id, "1234567893");
+    assert_eq!(req.at, Some(2));
+    assert_eq!(req.tmax, Some(120));
+    assert_eq!(req.imp.len(), 1);
+
+    let imp = &req.imp[0];
+    assert_eq!(imp.id, "1");
+    assert_eq!(imp.bidfloor, Some(0.03));
+    assert!(imp.video.is_some());
+    let video = imp.video.as_ref().unwrap();
+    assert_eq!(video.w, Some(640));
+    assert_eq!(video.h, Some(480));
+    assert_eq!(video.pos, Some(PlacementPosition::AboveTheFold));
+    assert_eq!(video.startdelay, Some(0));
+    assert_eq!(video.minduration, Some(5));
+    assert_eq!(video.maxduration, Some(30));
+    assert_eq!(video.protocols, Some(vec![CreativeSubtypeAudioVideo::Vast2_0, CreativeSubtypeAudioVideo::Vast3_0]));
+    assert_eq!(
+        video.mimes,
+        vec![
+            "video/x-flv".to_string(),
+            "video/mp4".to_string(),
+            "application/javascript".to_string()
+        ]
+    );
+    assert_eq!(video.linearity, Some(LinearityMode::Linear));
+    assert_eq!(video.boxingallowed, Some(1));
+    assert_eq!(video.playbackmethod, Some(vec![PlaybackMethod::PageLoadSoundOn, PlaybackMethod::ClickSoundOn]));
+    assert_eq!(video.delivery, Some(vec![DeliveryMethod::Progressive]));
+    assert!(video.companionad.is_some());
+    let companion_ads = video.companionad.as_ref().unwrap();
+    assert_eq!(companion_ads.len(), 2);
+    assert_eq!(companion_ads[0].id.as_deref(), Some("1234567893-1"));
+    assert_eq!(companion_ads[0].w, Some(300));
+    assert_eq!(companion_ads[0].h, Some(250));
+    assert_eq!(companion_ads[1].id.as_deref(), Some("1234567893-2"));
+    assert_eq!(companion_ads[1].w, Some(728));
+    assert_eq!(companion_ads[1].h, Some(90));
+    assert_eq!(video.companiontype, Some(vec![CompanionType::ConcurrentDisplay, CompanionType::EndCard]));
     assert!(req.site.is_some());
     let site = req.site.as_ref().unwrap();
     assert_eq!(site.id.as_deref(), Some("1345135123"));

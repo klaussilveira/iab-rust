@@ -13,7 +13,8 @@
 //! Below is an example of creating a bid request:
 //!
 //! ```
-//! use iab::openrtb2::*;
+//! use iab::openrtb26::*;
+//! use iab::adcom::enums::*;
 //! use serde_json;
 //!
 //! let request = BidRequest {
@@ -26,7 +27,7 @@
 //!         banner: Some(Banner {
 //!             h: Some(250),
 //!             w: Some(300),
-//!             pos: Some(0),
+//!             pos: Some(PlacementPosition::AboveTheFold),
 //!             ..Default::default()
 //!         }),
 //!         ..Default::default()
@@ -60,7 +61,7 @@
 //! Below is an example of parsing a bid request:
 //!
 //! ```
-//! use iab::openrtb2::*;
+//! use iab::openrtb26::*;
 //! use serde_json::{Result};
 //!
 //! let data = r#"
@@ -98,4 +99,8 @@
 //! );
 //! ```
 
-pub mod openrtb2;
+pub mod openrtb26;
+pub mod adcom;
+mod defaults;
+#[cfg(feature="coercion")]
+mod json_coercion;

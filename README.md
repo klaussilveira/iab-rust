@@ -6,14 +6,14 @@ The primary goal is to define these types in an idiomatic Rust way, adhering str
 
 ## Complete
 
-- [OpenRTB 2.6](https://iabtechlab.com/standards/openrtb/)
+- [OpenRTB 2.6](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md)
+- [AdCOM 1.0](https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/main/AdCOM%20v1.0%20FINAL.md)
 
 ## Roadmap
 
 The following specifications are planned for future implementation:
 
-- [AdCOM 1.0](https://iabtechlab.com/standards/openmedia/)
-- [OpenRTB Dynamic Native Ads 1.2](https://iabtechlab.com/standards/openrtb-native/)
+- [OpenRTB Dynamic Native Ads 1.2](https://github.com/InteractiveAdvertisingBureau/Native-Ads/blob/main/OpenRTB-Native-Ads-Specification-Final-1.2.md)
 
 ## Creating a Bid Request
 

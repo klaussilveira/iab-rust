@@ -1,4 +1,5 @@
-use iab::openrtb2::*;
+use iab::openrtb26::*;
+use iab::adcom::enums::*;
 use std::fs;
 use std::path::Path;
 
@@ -11,18 +12,9 @@ fn load_and_parse_response(filename: &str) -> BidResponse {
     let content = fs::read_to_string(&path)
         .unwrap_or_else(|e| panic!("Failed to read file {filename}: {e}"));
 
-    let result: Result<OpenRtb, _> = serde_json::from_str(&content);
+    let result: Result<BidResponse, _> = serde_json::from_str(&content);
 
-    let deserialized_response =
-        result.unwrap_or_else(|e| panic!("Failed to deserialize {filename}: {e:?}"));
-
-    match deserialized_response {
-        OpenRtb::BidResponse(resp) => {
-            println!("OK: {filename}");
-            resp
-        }
-        _ => panic!("Deserialized object for {filename} is not a BidResponse"),
-    }
+    result.unwrap_or_else(|e| panic!("Failed to deserialize {filename}: {e:?}"))
 }
 
 #[test]
@@ -53,7 +45,16 @@ fn test_ad_served_on_win_notice_response() {
     assert_eq!(bid.adomain, Some(vec!["advertiserdomain.com".to_string()]));
     assert_eq!(bid.cid.as_deref(), Some("campaign111"));
     assert_eq!(bid.crid.as_deref(), Some("creative112"));
-    assert_eq!(bid.attr, Some(vec![1, 2, 3, 4, 5, 6, 7, 12]));
+    assert_eq!(bid.attr, Some(vec![
+        CreativeAttribute::AudioAutoPlay,
+        CreativeAttribute::AudioUserInitiated,
+        CreativeAttribute::ExpandableAutomatic,
+        CreativeAttribute::ExpandableClickInitiated,
+        CreativeAttribute::ExpandableRolloverInitiated,
+        CreativeAttribute::VideoInBannerAutoPlay,
+        CreativeAttribute::VideoInBannerUserInitiated,
+        CreativeAttribute::TextOnly,
+    ]));
 }
 
 #[test]
@@ -86,7 +87,12 @@ fn test_direct_deal_ad_served_on_win_notice_response() {
     assert_eq!(bid.cid.as_deref(), Some("campaign111"));
     assert_eq!(bid.crid.as_deref(), Some("creative112"));
     assert_eq!(bid.adid.as_deref(), Some("314"));
-    assert_eq!(bid.attr, Some(vec![1, 2, 3, 4]));
+    assert_eq!(bid.attr, Some(vec![
+        CreativeAttribute::AudioAutoPlay,
+        CreativeAttribute::AudioUserInitiated,
+        CreativeAttribute::ExpandableAutomatic,
+        CreativeAttribute::ExpandableClickInitiated,
+    ]));
 }
 
 #[test]
@@ -174,4 +180,45 @@ fn test_vast_xml_document_returned_inline_response() {
 
     // Should be a VAST XML
     assert!(bid.adm.as_ref().unwrap().starts_with("<?xml version="));
+}
+
+
+#[test]
+#[cfg(feature="coercion")]
+fn test_coercion_response() {
+    let resp = load_and_parse_response("needs-coercion.json");
+
+    assert_eq!(resp.id, "1234567890");
+    assert_eq!(resp.bidid.as_deref(), Some("abc1123"));
+    assert_eq!(resp.cur, Some("USD".to_string()));
+    assert!(resp.seatbid.is_some());
+    let seatbid_vec = resp.seatbid.as_ref().unwrap();
+    assert_eq!(seatbid_vec.len(), 1);
+    let seatbid = &seatbid_vec[0];
+    assert_eq!(seatbid.seat.as_deref(), Some("512"));
+    assert_eq!(seatbid.group, Some(1));
+    assert_eq!(seatbid.bid.len(), 1);
+    let bid = &seatbid.bid[0];
+    assert_eq!(bid.id, "1");
+    assert_eq!(bid.impid, "102");
+    assert_eq!(bid.price, 5.00);
+    assert_eq!(bid.dealid.as_deref(), Some("ABC-1234-6789"));
+    assert_eq!(
+        bid.nurl.as_deref(),
+        Some("http://adserver.com/winnotice?impid=102")
+    );
+    assert_eq!(bid.adomain, Some(vec!["advertiserdomain.com".to_string()]));
+    assert_eq!(
+        bid.iurl.as_deref(),
+        Some("http://adserver.com/pathtosampleimage")
+    );
+    assert_eq!(bid.cid.as_deref(), Some("campaign111"));
+    assert_eq!(bid.crid.as_deref(), Some("creative112"));
+    assert_eq!(bid.adid.as_deref(), Some("314"));
+    assert_eq!(bid.attr, Some(vec![
+        CreativeAttribute::AudioAutoPlay,
+        CreativeAttribute::AudioUserInitiated,
+        CreativeAttribute::ExpandableAutomatic,
+        CreativeAttribute::ExpandableClickInitiated,
+    ]));
 }

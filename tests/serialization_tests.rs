@@ -1,4 +1,5 @@
-use iab::openrtb2::*;
+use iab::openrtb26::*;
+use iab::adcom::enums::*;
 use std::fs;
 
 #[test]
@@ -13,7 +14,7 @@ fn test_serializ() {
             banner: Some(Banner {
                 h: Some(250),
                 w: Some(300),
-                pos: Some(0),
+                pos: Some(PlacementPosition::AboveTheFold),
                 ..Default::default()
             }),
             ..Default::default()
